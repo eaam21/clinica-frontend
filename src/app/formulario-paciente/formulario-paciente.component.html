@@ -1,0 +1,82 @@
+<div class="container">
+    <br>
+    <div class="row align-items-center mb-4 row-custom">
+      <div class="col-8">
+        <h2 class="fw-bold">Registrar Paciente</h2>
+      </div>
+      <div class="col-4 text-end">
+        <button routerLink="/" class="btn btn-outline-primary">
+          Regresar
+        </button>
+      </div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="create()" class="row g-3" >
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Apellido Paterno</mat-label>
+                <input matInput type="text" autocomplete="off" name="apellidoPaterno" formControlName="apellidoPaterno"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Apellido Materno</mat-label>
+                <input matInput type="text" autocomplete="off" name="apellidoMaterno" formControlName="apellidoMaterno"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Nombres</mat-label>
+                <input matInput type="text" autocomplete="off" name="nombres" formControlName="nombres"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Peso</mat-label>
+                <input matInput type="number" autocomplete="off" name="peso" formControlName="peso" (input)="actualizarIMC()"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Talla</mat-label>
+                <input matInput type="number" autocomplete="off" name="talla" formControlName="talla" (input)="actualizarIMC()"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>IMC</mat-label>
+                <input matInput type="number" autocomplete="off" name="imc" formControlName="imc" readonly/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>DNI</mat-label>
+                <input matInput type="text" autocomplete="off" name="dni" formControlName="dni" maxlength="8"/>
+                <mat-error >Campo obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Especialidades</mat-label>
+                <mat-select [formControlName]="'idEspecialidad'">
+                  @for (topping of listaEspecialidades; track topping) {
+                      <mat-option [value]="topping.id">{{ topping.nombre }}</mat-option>
+                  }
+                </mat-select>
+                <mat-error >Campo obligatorio</mat-error>
+              </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-outline-primary" style="margin-top: 0%;">
+                &nbsp;&nbsp;Guardar&nbsp;&nbsp;
+            </button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,21 @@
+.mat-mdc-row{
+    height: 30px !important;
+}
+
+.mat-mdc-row:nth-child(odd){
+    background-color: #F7F6FE !important;
+}
+
+.mat-mdc-row:nth-child(even){
+    background-color: #EEE !important;
+}
+
+.mat-mdc-cell{
+    border: none !important;
+}
+
+.mat-mdc-header-row{
+    background-color: #536493;
+    color: white;
+}
+
