@@ -165,17 +165,15 @@ body {
 
 
 form .btn-outline-primary {
-    background-color: #536493;
-    border: 2px solid #536493;
+    background-color: #d84545;
+    border: 2px solid #d84545;
     color: #fff;
-    padding: 10px 20px;
     font-size: 22px;
     font-family: 'cottontail', Arial, sans-serif;
     border-radius: 9px;
     transition: background-color 0.3s, color 0.3s;
     display: block;
     margin: 45px auto;
-    max-width: 150px; 
 }
 /*
 form .btn-outline-primary:hover {

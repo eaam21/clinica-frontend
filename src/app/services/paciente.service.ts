@@ -14,8 +14,19 @@ export class PacienteService {
     return this.http.get<Paciente[]>('http://localhost:8080/api/paciente/listar')
   }
 
-  registrar(paciente: any){
-    //const  especialidad: Especialidad = {id:1, nombre:"test"};
+  registrar(paciente: Paciente){
     return this.http.post('http://localhost:8080/api/paciente/registrar', paciente)
+  }
+
+  obtener(id:number){
+    return this.http.get<Paciente>('http://localhost:8080/api/paciente/obtener/'+id)
+  }
+
+  actualizar(id:number, paciente: Paciente){
+    return this.http.put('http://localhost:8080/api/paciente/actualizar/'+id, paciente)
+  }
+
+  eliminar(id:number){
+    return this.http.put('http://localhost:8080/api/paciente/eliminar/', id)
   }
 }

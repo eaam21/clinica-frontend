@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Paciente } from '../model/paciente.interface';
 import {MatInputModule} from '@angular/material/input';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PacienteService } from '../services/paciente.service';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {
@@ -22,37 +22,60 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './formulario-paciente.component.html',
   styleUrl: './formulario-paciente.component.css'
 })
-export default class FormularioPacienteComponent {
+export default class FormularioPacienteComponent implements OnInit{
   private fb = inject(FormBuilder);
   private pacienteService = inject(PacienteService);
   private especialidadService = inject(EspecialidadService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   listaEspecialidades: Especialidad[]=[]
+  form?: FormGroup;
+  editarDatosPaciente?:Paciente;
 
   constructor(
     private _snackBar: MatSnackBar
   ){}
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id')  
+    if(id!=null){//si existe valores, esto es para editar
+      this.pacienteService.obtener(parseInt(id)).subscribe(res =>{
+        this. editarDatosPaciente = res;
+        this.form = this.fb.group({
+          apellidoPaterno:[res.apellidoPaterno,[Validators.required]],
+          apellidoMaterno:[res.apellidoMaterno,[Validators.required]],
+          nombres:[res.nombres,[Validators.required]],
+          dni:[res.dni,[Validators.required]],
+          peso:[res.peso,[Validators.required]],
+          talla:[res.talla,[Validators.required]],
+          imc:[res.imc,[Validators.required]],
+          idEspecialidad: [res.especialidad.id,[Validators.required]]
+        })
+        }
+      )
+    }else{//no existe valores previos, esto es para crear
+      this.form = this.fb.group({
+        apellidoPaterno:['',[Validators.required]],
+        apellidoMaterno:['',[Validators.required]],
+        nombres:['',[Validators.required]],
+        dni:['',[Validators.required]],
+        peso:['',[Validators.required]],
+        talla:['',[Validators.required]],
+        imc:[0,[Validators.required]],
+        idEspecialidad: ['',[Validators.required]]
+      })
+  
+    }
+    
+    //Traer todos los valores del listado de especialidades para pintar en el combo de selección
     this.especialidadService.listar().subscribe(
       (lista)=>{
         this.listaEspecialidades = lista
       }
     )
   }
-
-  form = this.fb.group({
-    apellidoPaterno:['',[Validators.required]],
-    apellidoMaterno:['',[Validators.required]],
-    nombres:['',[Validators.required]],
-    dni:['',[Validators.required]],
-    peso:['',[Validators.required]],
-    talla:['',[Validators.required]],
-    imc:[0,[Validators.required]],
-    idEspecialidad: ['',[Validators.required]]
-  })
 
   calcularIMC(peso: number, talla: number): number {
     if (talla === 0) {
@@ -63,30 +86,42 @@ export default class FormularioPacienteComponent {
   }
 
   actualizarIMC(): void {
-    let peso:number=this.form.controls.peso.value==null?0:parseFloat(this.form.controls.peso.value);
-    let talla:number=this.form.controls.talla.value==null?0:parseFloat(this.form.controls.talla.value);
-
+    let peso = parseFloat(this.form!.get('peso')?.value);
+    let talla = parseFloat(this.form!.get('talla')?.value);
     let imc = this.calcularIMC(peso, talla);
     if(!isNaN(imc)){
-      this.form.get('imc')?.setValue(imc)
-    }
+      this.form!.get('imc')?.setValue(imc)
+    }    
   }
 
-  create(){
-    if (this.form.invalid) {
+  guardar(){
+    if (this.form!.invalid) {//validar todos los campos del formulario como obligatorios
       return;
     }
-    const pacienteFormulario = this.form.value;
-    this.pacienteService.registrar(pacienteFormulario)
-    .subscribe(
-      ()=>{
-        this.router.navigate(['/']);
-      }
-    )
-    this.openSnackBar();
+
+    const pacienteFormulario = this.form!.value;
+    if(this.editarDatosPaciente){
+      let idPAciente = this.editarDatosPaciente.id;
+      this.pacienteService.actualizar(idPAciente, pacienteFormulario)
+      .subscribe(
+        ()=>{
+          this.router.navigate(['/']);
+        }
+      )
+      this.openSnackBarActualizar();
+
+    }else{
+      this.pacienteService.registrar(pacienteFormulario)
+      .subscribe(
+        ()=>{
+          this.router.navigate(['/']);
+        }
+      )
+      this.openSnackBarCrear();
+    }
   }
 
-  openSnackBar() {
+  openSnackBarCrear() {
     this._snackBar.open('Registrado con éxito!', 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
@@ -94,8 +129,11 @@ export default class FormularioPacienteComponent {
     });
   }
 
-
-  
-  
-  
+  openSnackBarActualizar() {
+    this._snackBar.open('Actualizado con éxito!', 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration:4000
+    });
+  }
 }
