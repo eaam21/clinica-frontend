@@ -27,6 +27,6 @@ export class PacienteService {
   }
 
   eliminar(id:number){
-    return this.http.put('http://localhost:8080/api/paciente/eliminar/', id)
+    return this.http.delete('http://localhost:8080/api/paciente/eliminar/'+id)
   }
 }

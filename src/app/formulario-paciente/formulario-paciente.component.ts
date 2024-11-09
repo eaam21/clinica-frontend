@@ -1,20 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Paciente } from '../model/paciente.interface';
-import {MatInputModule} from '@angular/material/input';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PacienteService } from '../services/paciente.service';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Especialidad } from '../model/especialidad.interface';
+import { Paciente } from '../model/paciente.interface';
 import { EspecialidadService } from '../services/especialidad.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
+import { PacienteService } from '../services/paciente.service';
 @Component({
   selector: 'app-formulario-paciente',
   standalone: true,
@@ -28,15 +28,12 @@ export default class FormularioPacienteComponent implements OnInit{
   private especialidadService = inject(EspecialidadService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   listaEspecialidades: Especialidad[]=[]
   form?: FormGroup;
   editarDatosPaciente?:Paciente;
-
-  constructor(
-    private _snackBar: MatSnackBar
-  ){}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')  
@@ -66,7 +63,6 @@ export default class FormularioPacienteComponent implements OnInit{
         imc:[0,[Validators.required]],
         idEspecialidad: ['',[Validators.required]]
       })
-  
     }
     
     //Traer todos los valores del listado de especialidades para pintar en el combo de selección
@@ -122,7 +118,7 @@ export default class FormularioPacienteComponent implements OnInit{
   }
 
   openSnackBarCrear() {
-    this._snackBar.open('Registrado con éxito!', 'OK', {
+    this.snackBar.open('Registrado con éxito!', 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       duration:4000
@@ -130,7 +126,7 @@ export default class FormularioPacienteComponent implements OnInit{
   }
 
   openSnackBarActualizar() {
-    this._snackBar.open('Actualizado con éxito!', 'OK', {
+    this.snackBar.open('Actualizado con éxito!', 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       duration:4000

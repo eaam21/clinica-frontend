@@ -65,7 +65,7 @@
                       <button mat-icon-button matTooltip="Editar paciente" [routerLink]="['editar/', element.id]" style="vertical-align: middle;">
                         <mat-icon>edit</mat-icon>
                       </button>
-                      <button mat-icon-button matTooltip="Eliminar paciente" style="vertical-align: middle;">
+                      <button mat-icon-button matTooltip="Eliminar paciente" (click)="eliminar(element.id)" style="vertical-align: middle;">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </td>
