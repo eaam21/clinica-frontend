@@ -1,21 +1,22 @@
-
-    <div class="login-container">
-        <mat-card>
-          <mat-card-title style="margin: 20px auto 20px auto;">Iniciar Sesión</mat-card-title>
-          <mat-card-content>
-            <form #loginForm="ngForm" >
-              <mat-form-field class="full-width">
-                <mat-label>Usuario</mat-label>
-                <input matInput  name="username" required />
-              </mat-form-field>
-              <mat-form-field class="full-width">
-                <mat-label>Clave</mat-label>
-                <input matInput type="password" name="password" required />
-              </mat-form-field>
-              <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Ingresar</button>
-            </form>
-          </mat-card-content>
-        </mat-card>
-    </div>
+<div class="login-container">
+    <mat-card>
+      <mat-card-title style="margin: 20px auto 20px auto; color: rgb(62, 105, 5);" class="fw-bold">Iniciar Sesión</mat-card-title>
+      <mat-card-content>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Usuario</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input matInput [(ngModel)]="credenciales.usuario" name="usuario" required />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Clave</mat-label>
+            <mat-icon matPrefix>key</mat-icon>
+            <input matInput type="password" [(ngModel)]="credenciales.clave" name="clave" required />
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+</div>
 
 
