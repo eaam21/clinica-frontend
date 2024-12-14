@@ -38,10 +38,10 @@ export default class LoginComponent {
     this.loginService.login(this.credenciales).subscribe({
       next:(response:LoginOutput)=>{
         if(response.success){
+          sessionStorage.setItem("token", response.token);
           this.router.navigate(['/inicio']);
         }else{
           this.openSnackBarLoginIncorrecto(response.respuesta);
-          console.log(response.respuesta);
         }
       },
       error:(err)=>{

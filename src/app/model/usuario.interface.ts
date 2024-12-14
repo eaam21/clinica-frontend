@@ -1,6 +1,7 @@
 export interface LoginOutput{
     success: boolean,
-    respuesta: string
+    respuesta: string,
+    token: string
 }
 
 export interface LoginInput{
