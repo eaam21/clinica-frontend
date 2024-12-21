@@ -101,7 +101,7 @@ export default class FormularioPacienteComponent implements OnInit{
       this.pacienteService.actualizar(idPAciente, pacienteFormulario)
       .subscribe(
         ()=>{
-          this.router.navigate(['/']);
+          this.router.navigate(['/inicio']);
         }
       )
       this.openSnackBarActualizar();
@@ -110,7 +110,7 @@ export default class FormularioPacienteComponent implements OnInit{
       this.pacienteService.registrar(pacienteFormulario)
       .subscribe(
         ()=>{
-          this.router.navigate(['/']);
+          this.router.navigate(['/inicio']);
         }
       )
       this.openSnackBarCrear();

@@ -13,24 +13,45 @@ export class PacienteService {
   listar(){
     let token = sessionStorage.getItem("token");
     const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`, // Pass token in Authorization header
     });
     return this.http.get<Paciente[]>('http://localhost:8080/api/paciente/listar', { headers })
   }
 
   registrar(paciente: Paciente){
-    return this.http.post('http://localhost:8080/api/paciente/registrar', paciente)
+    let token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`, // Pass token in Authorization header
+    });
+    return this.http.post('http://localhost:8080/api/paciente/registrar', paciente, { headers })
   }
 
   obtener(id:number){
-    return this.http.get<Paciente>('http://localhost:8080/api/paciente/obtener/'+id)
+    let token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`, // Pass token in Authorization header
+    });
+    return this.http.get<Paciente>('http://localhost:8080/api/paciente/obtener/'+id, { headers })
   }
 
   actualizar(id:number, paciente: Paciente){
-    return this.http.put('http://localhost:8080/api/paciente/actualizar/'+id, paciente)
+    let token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`, // Pass token in Authorization header
+    });
+    return this.http.put('http://localhost:8080/api/paciente/actualizar/'+id, paciente, { headers })
   }
 
   eliminar(id:number){
-    return this.http.delete('http://localhost:8080/api/paciente/eliminar/'+id)
+    let token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`, // Pass token in Authorization header
+    });
+    return this.http.delete('http://localhost:8080/api/paciente/eliminar/'+id, { headers })
   }
 }
