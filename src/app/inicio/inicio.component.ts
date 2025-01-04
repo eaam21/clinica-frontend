@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { ConfirmarDialogComponent } from '../confirmar-dialog/confirmar-dialog.component';
 import { Paciente } from '../model/paciente.interface';
 import { PacienteService } from '../services/paciente.service';
+import { JwtDecoderService } from '../services/jwt-decoder.service';
 
 @Component({
   selector: 'app-inicio',
@@ -22,14 +23,20 @@ export default class InicioComponent implements OnInit{
   private pacienteService = inject(PacienteService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private jwtDecoder = inject(JwtDecoderService)
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   dataSource:any;
   displayedColumns: string[] = ['id', 'apellidoPaterno', 'apellidoMaterno', 'nombres', 'dni', 'peso', 'talla', 'imc', 'especialidad', 'acciones'];
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatTable,{static:true}) table!: MatTable<any>;
-
+  decodedToken:any
+  
   ngOnInit(): void {
+    this.decodedToken = this.jwtDecoder.decodeToken()
+    if(this.decodedToken.role=="ASISTENTE"){
+      this.displayedColumns = ['id', 'apellidoPaterno', 'apellidoMaterno', 'nombres', 'dni', 'peso', 'talla', 'imc', 'especialidad'];
+    }
     this.listar();
   }
 

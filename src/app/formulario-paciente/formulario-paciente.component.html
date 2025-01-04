@@ -11,11 +11,8 @@
             Paciente</h2>
       </div>
       <div class="col-4 text-end">
-        <button routerLink="/salir" class="btn btn-outline-danger">
+        <button routerLink="/salir" class="btn btn-danger">
             Salir de sesión
-          </button><br><br>
-        <button routerLink="/inicio" class="btn btn-outline-primary">
-          Regresar
         </button>
       </div>
     </div>
@@ -82,14 +79,17 @@
                   </mat-form-field>
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-outline-primary" style="margin-top: 0%;">
+                <button type="submit" class="btn btn-success" style="margin-top: 0%;">
                     @if (editarDatosPaciente) {
                         Actualizar
                     } @else {
                         Registrar 
                     }
                     Paciente
-                </button>
+                </button>&nbsp;&nbsp;
+                <button type="button" routerLink="/inicio" class="btn btn-warning">
+                    Regresar
+                  </button>
             </div>
         </form>
     }
